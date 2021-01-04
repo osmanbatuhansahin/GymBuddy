@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
         //If user is already logged in we'll not ask for user info again.
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser!=null){
-            Intent intent = new Intent(SignInActivity.this,ProfileActivity.class);
+            Intent intent = new Intent(SignInActivity.this, DashboardActivity.class);
             startActivity(intent);
             finish();
         }
@@ -106,7 +106,7 @@ public class SignInActivity extends AppCompatActivity {
                             //dismiss pd
                             pd.dismiss();
                             Toast.makeText(SignInActivity.this,"Successful Login..",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignInActivity.this,ProfileActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, DashboardActivity.class);
                             startActivity(intent);
                             finish();
                         }

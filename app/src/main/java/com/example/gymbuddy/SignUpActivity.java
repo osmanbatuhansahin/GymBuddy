@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -126,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
-                        Intent intent = new Intent(SignUpActivity.this,ProfileActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
 
