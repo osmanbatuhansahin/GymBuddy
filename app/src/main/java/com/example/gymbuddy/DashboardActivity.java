@@ -43,7 +43,7 @@ public class DashboardActivity extends AppCompatActivity {
         actionBar.setTitle("Home");
         HomeFragment fragment1 = new HomeFragment();
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-        ft1.replace(R.id.container, fragment1,"");
+        ft1.replace(R.id.content, fragment1,"");
         ft1.commit();
     }
 
