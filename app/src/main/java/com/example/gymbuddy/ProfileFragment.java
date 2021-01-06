@@ -18,10 +18,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +44,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.security.Key;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import static android.app.Activity.RESULT_OK;
+import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +67,7 @@ public class ProfileFragment extends Fragment {
     //Storage
     StorageReference storageReference;
     //path of profile pic stored
-    String storagePath = "Users_Profile_Imgs/"
+    String storagePath = "Users_Profile_Imgs/";
 
     //views from xml
     ImageView avatarIV;
@@ -81,6 +89,8 @@ public class ProfileFragment extends Fragment {
 
     //uri of picked image
     Uri image_uri;
+    //for checking photo type
+    String profileOrCoverPhoto;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -134,6 +144,7 @@ public class ProfileFragment extends Fragment {
         user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+        storageReference = getInstance().getReference(); //firabase store ref
 
         //init arrays of perm
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -205,7 +216,7 @@ public class ProfileFragment extends Fragment {
     }
     private void requestStoragePermission(){
         //reuest runtime storage permission
-        ActivityCompat.requestPermissions(getActivity(), storagePermissions, STORAGE_REQUEST_CODE);
+        requestPermissions(storagePermissions, STORAGE_REQUEST_CODE);
     }
 
     private boolean checkCameraPermission(){
@@ -220,7 +231,7 @@ public class ProfileFragment extends Fragment {
     }
     private void requestCameraPermission(){
         //reuest runtime storage permission
-        ActivityCompat.requestPermissions(getActivity(), cameraPermissions, CAMERA_REQUEST_CODE);
+        requestPermissions(cameraPermissions, CAMERA_REQUEST_CODE);
     }
 
     private void showEditProfileDialog() {
@@ -238,16 +249,21 @@ public class ProfileFragment extends Fragment {
                 if (which == 0){
                     //pp
                     pd.setMessage("Updating Profile Picture");
+                    profileOrCoverPhoto = "profilepic";
                     showImagePicDialog();
                 }
                 else if (which == 1){
                     //name
                     pd.setMessage("Updating Name");
+                    //calling method name as param
+                    showNamePhoneUpdateDialog("name");
 
                 }
                 else if (which == 2){
                     //nick
                     pd.setMessage("Updating Nickname");
+                    showNamePhoneUpdateDialog("nick");
+
 
                 }
             }
@@ -255,6 +271,74 @@ public class ProfileFragment extends Fragment {
         //create and show dialog
         builder.create().show();
 
+    }
+
+    private void showNamePhoneUpdateDialog(final String key) {
+        //key param is name or nick
+
+        //custom dialog
+        AlertDialog.Builder builder =new AlertDialog.Builder(getActivity());
+        builder.setTitle("Update "+key);
+        //set layout of dialog
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(10,10,10,10);
+        //add edit text
+        final EditText editText = new EditText(getActivity());
+        editText.setHint("Enter "+key);
+        linearLayout.addView(editText);
+
+        builder.setView(linearLayout);
+
+        //add button to update
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //input text from edittext
+                String value = editText.getText().toString().trim();
+                //validate if uer has entered something or not
+                if (!TextUtils.isEmpty(value)){
+                    pd.show();
+                    HashMap<String,Object> result = new HashMap<>();
+                    result.put(key,value);
+
+                    databaseReference.child(user.getUid()).updateChildren(result)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //updated so dismiss progress
+                                    pd.dismiss();
+                                    Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //failed show error
+                                    pd.dismiss();
+                                    Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                }
+                else {
+                    Toast.makeText(getActivity(),"Enter"+key,Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+        //add button to cancel
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        //create and show dialog
+        builder.create().show();
     }
 
     private void showImagePicDialog() {
@@ -315,6 +399,7 @@ public class ProfileFragment extends Fragment {
 
                }
             }
+            break;
             case STORAGE_REQUEST_CODE:{
 
                 //picking from gallery, checking permssions
@@ -334,8 +419,8 @@ public class ProfileFragment extends Fragment {
                 }
 
             }
+            break;
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -359,7 +444,7 @@ public class ProfileFragment extends Fragment {
         //show progress
         pd.show();
         //path and name of image to firabase storage
-        String filePathAndName = storagePath+ "_"+user.getUid();
+        String filePathAndName = storagePath+""+profileOrCoverPhoto+"_"+user.getUid();
         StorageReference storageReference2nd = storageReference.child(filePathAndName);
         storageReference2nd.putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -370,6 +455,40 @@ public class ProfileFragment extends Fragment {
                         while (!uriTask.isSuccessful());
                         Uri downloadUri =uriTask.getResult();
 
+                        //check if image is uploaded or not and url is received
+                        if (uriTask.isSuccessful()){
+                            //image uploaded
+                            //update url in users database
+                            HashMap<String,Object> results = new HashMap<>();
+                            //first param=image or cover seceond this url will be saved as value
+                            results.put(profileOrCoverPhoto,downloadUri.toString());
+
+                            databaseReference.child(user.getUid()).updateChildren(results)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            //url in db of user is added succesfully
+                                            pd.dismiss();
+                                            Toast.makeText(getActivity(),"Image Updated",Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            //error
+                                            pd.dismiss();
+                                            Toast.makeText(getActivity(),"Error updating Image",Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                        }
+                        else{
+                            //error
+                            pd.dismiss();
+                            Toast.makeText(getActivity(),"Some error occured",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
