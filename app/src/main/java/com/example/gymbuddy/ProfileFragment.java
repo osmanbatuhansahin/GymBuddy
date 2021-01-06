@@ -404,7 +404,6 @@ public class ProfileFragment extends Fragment {
 
                 //picking from gallery, checking permssions
                 if (grantResults.length>0){
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     if (writeStorageAccepted){
                         //permission enabled
