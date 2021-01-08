@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Users");
+        databaseReference = firebaseDatabase.getReference("UserInfos");
         storageReference = getInstance().getReference(); //firabase store ref
 
         //init arrays of perm
@@ -171,8 +171,8 @@ public class ProfileFragment extends Fragment {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     //get data
                     String name = ""+ ds.child("name").getValue();
-                    String nick = ""+ ds.child("nick").getValue();
-                    String image = ""+ ds.child("image").getValue();
+                    String nick = ""+ ds.child("nickname").getValue();
+                    String image = ""+ ds.child("imageLink").getValue();
                     String bio = ""+ ds.child("bio").getValue();
 
                     //set data
@@ -262,7 +262,7 @@ public class ProfileFragment extends Fragment {
                 else if (which == 2){
                     //nick
                     pd.setMessage("Updating Nickname");
-                    showNamePhoneUpdateDialog("nick");
+                    showNamePhoneUpdateDialog("nickname");
 
 
                 }
