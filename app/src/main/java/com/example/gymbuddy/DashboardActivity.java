@@ -82,40 +82,23 @@ public class DashboardActivity extends AppCompatActivity {
     };
 
 
-    /*private void checkUserStatus(){
+    private void checkUserStatus(){
         //Current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user!=null){
             //Stay logged in.
         }else{
             //User is not sign in we should go to signin activity
-            Intent intent = new Intent(ProfileActivity.this,SignInActivity.class);
+            Intent intent = new Intent(DashboardActivity.this,SignInActivity.class);
             startActivity(intent);
             finish();
         }
-    }*/
+    }
 
     /*protected void onStart() {
         checkUserStatus();
         super.onStart();
     }*/
 
-    //Inflate options menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    //When menu item clicks.
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_logout){
-            firebaseAuth.signOut();
-            startActivity(new Intent(DashboardActivity.this,SignInActivity.class));
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

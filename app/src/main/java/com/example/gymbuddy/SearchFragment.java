@@ -1,13 +1,21 @@
 package com.example.gymbuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +40,7 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView;
     AdapterUsers adapterUsers;
     List<ModelUsers> usersList;
+    FirebaseAuth firebaseAuth;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,24 +63,7 @@ public class SearchFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment SearchFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +79,8 @@ public class SearchFragment extends Fragment {
 
         //init user list
         usersList = new ArrayList<>();
+        //inits
+        firebaseAuth = FirebaseAuth.getInstance();
         
         //get all users
         getAllUsers();
@@ -122,5 +116,119 @@ public class SearchFragment extends Fragment {
 
             }
         });
+    }
+
+    private void searchUsers(final String query) {
+        //get current user
+        final FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        //get path of db named "Userinfos"
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("UserInfos");
+        // get all data from path
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    ModelUsers modelUsers = ds.getValue(ModelUsers.class);
+                    //get all searched users except currently signed in user
+                    if(!modelUsers.getUuid().equals(fUser.getUid())){
+                        if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
+                        modelUsers.getNickname().toLowerCase().contains(query.toLowerCase())){
+                            usersList.add(modelUsers);
+
+                        }
+                    }
+                    //adapter
+                    adapterUsers = new AdapterUsers(getActivity(), usersList);
+                    //refresh adapter
+                    adapterUsers.notifyDataSetChanged();
+                    //set adapter to recycler view
+                    recyclerView.setAdapter(adapterUsers);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void checkUserStatus(){
+        //Current user
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user!=null){
+            //Stay logged in.
+        }else{
+            //User is not sign in we should go to signin activity
+            Intent intent = new Intent(getActivity(),SignInActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true); //to show menu opt in fragment
+        super.onCreate(savedInstanceState);
+    }
+
+    //Inflate options menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main,menu);
+
+        //Search view
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        //search listener
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //called when user press search button from keyboard
+                //if search query is not empty then search
+                if (!TextUtils.isEmpty(s.trim())){
+                    //search it
+                    searchUsers(s);
+
+                }
+                else {
+                    //get all users
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //called whenever user press any letter
+                //if search query is not empty then search
+                if (!TextUtils.isEmpty(s.trim())){
+                    //search it
+                    searchUsers(s);
+
+                }
+                else {
+                    //get all users
+                }
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+
+    //When menu item clicks.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_logout){
+            firebaseAuth.signOut();
+            checkUserStatus();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
