@@ -97,21 +97,21 @@ public class SignUpActivity extends AppCompatActivity {
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        pd.dismiss();
-                        Toast.makeText(SignUpActivity.this,"User created.",Toast.LENGTH_LONG).show();
-
                         FirebaseUser user = firebaseAuth.getCurrentUser();
+                        pd.dismiss();
 
                         //Get user uuid and email
-                        String uuid = user.getUid();
+                        String uid = user.getUid();
                         String email = user.getEmail();
 
+                        Toast.makeText(SignUpActivity.this,"User created.\n"+user.getEmail(),Toast.LENGTH_LONG).show();
+
                         //user email, nickname ve createdDate tarihini tutacağız.
-                        HashMap<String,Object> userCreatedInfos = new HashMap<>();
+                        HashMap<Object,String> userCreatedInfos = new HashMap<>();
                         userCreatedInfos.put("useremail",email);
                         userCreatedInfos.put("nickname",nickname);
                         userCreatedInfos.put("name","");    //Field'll edit in profile
-                        userCreatedInfos.put("uuid",uuid);  //Field'll edit in profile
+                        userCreatedInfos.put("uuid",uid);  //Field'll edit in profile
                         userCreatedInfos.put("imageLink","");   //Field'll edit in profile
                         userCreatedInfos.put("bio","");   //Field'll edit in profile
 
@@ -121,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
                         //path to 'userinfos'
                         DatabaseReference reference = database.getReference("UserInfos");
                         //put data within hashmap
-                        reference.child(uuid).setValue(userCreatedInfos);
+                        reference.child(uid).setValue(userCreatedInfos);
 
 
 
