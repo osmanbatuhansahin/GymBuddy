@@ -55,7 +55,6 @@ public class AddPostActivity extends AppCompatActivity {
     private static final int IMAGE_PICK_CAMERA_CODE= 300;
     private static final int IMAGE_PICK_GALLERY_CODE= 400;
 
-
     //permissions array
     String[] cameraPermissons ;
     String[] storagePermissons;
@@ -96,13 +95,13 @@ public class AddPostActivity extends AppCompatActivity {
 
         //necesarry info about user
         userDbRef = FirebaseDatabase.getInstance().getReference("UserInfos");
-        Query query = userDbRef.orderByChild("email").equalTo(email);
+        Query query = userDbRef.orderByChild("useremail").equalTo(email);
         query.addValueEventListener(new ValueEventListener(){
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for(DataSnapshot ds:dataSnapshot.getChildren()){
-                name = ""+ ds.child("name").getValue();
-                email = ""+ ds.child("email").getValue();
+                name = ""+ ds.child("useremail").getValue();
+                email = ""+ ds.child("useremail").getValue();
                 dp = ""+ ds.child("imageLink").getValue();
             }
         }
@@ -328,11 +327,6 @@ public class AddPostActivity extends AppCompatActivity {
     Intent intent = new Intent(Intent.ACTION_PICK);
     intent.setType("image/*");
     startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
-
-
-
-
-
     }
 
     private void pickFromCamera() {

@@ -75,7 +75,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         //if there is no image then hide imageView
         if(pImage.equals("noImage")){
             //hide imageView
-            //myHolder.pImageIv.setVisibility(View.INVISIBLE);
+            myHolder.pImageIv.setVisibility(View.GONE);
 
         }
         else{
