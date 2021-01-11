@@ -107,7 +107,7 @@ public class AddPostActivity extends AppCompatActivity {
             for(DataSnapshot ds:dataSnapshot.getChildren()){
                 name = ""+ ds.child("name").getValue();
                 email = ""+ ds.child("useremail").getValue();
-                dp = ""+ ds.child("imageLink").getValue();
+                dp = ""+ ds.child("profilepic").getValue();
             }
         }
 

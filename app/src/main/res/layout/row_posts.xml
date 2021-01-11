@@ -64,6 +64,12 @@
             android:textStyle="bold"
             android:text="Title"
             android:autoLink="all"></TextView>
+
+        <ImageView
+            android:id="@+id/pImageIv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorWhite"></ImageView>
         <TextView
             android:id="@+id/pDescriptionTv"
             android:layout_width="match_parent"
@@ -71,11 +77,6 @@
             android:textColor="@color/colorBlack"
             android:text="Description"
             android:autoLink="all"></TextView>
-        <ImageView
-            android:id="@+id/pImageIv"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/colorWhite"></ImageView>
         <TextView
             android:id="@+id/pLikesTv"
             android:text="1k Likes"

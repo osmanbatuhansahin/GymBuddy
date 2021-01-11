@@ -134,7 +134,7 @@ public class ProfileFragment extends Fragment {
                     //get data
                     String name = ""+ ds.child("name").getValue();
                     String nick = ""+ ds.child("nickname").getValue();
-                    String image = ""+ ds.child("imageLink").getValue();
+                    String image = ""+ ds.child("profilepic").getValue();
                     String bio = ""+ ds.child("bio").getValue();
 
                     //set data
