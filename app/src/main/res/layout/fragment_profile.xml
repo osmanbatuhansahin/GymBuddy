@@ -25,7 +25,8 @@
             android:id="@+id/avatarIV"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src = "@drawable/ic_add_image"/>
+            android:background="@drawable/ic_image_person"
+            android:src="@drawable/ic_add_image" />
 
         <TextView
             android:id="@+id/nickTV"

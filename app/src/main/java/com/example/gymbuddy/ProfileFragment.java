@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -53,12 +54,6 @@ import java.util.HashSet;
 
 import static android.app.Activity.RESULT_OK;
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment {
 
     //firebase
@@ -95,38 +90,9 @@ public class ProfileFragment extends Fragment {
     //for checking photo type
     String profileOrCoverPhoto;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
 
     @Override
@@ -158,7 +124,7 @@ public class ProfileFragment extends Fragment {
 
 
         //Query
-        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
+        Query query = databaseReference.orderByChild("useremail").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -446,44 +412,58 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // image uploaded
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful());
-                        Uri downloadUri =uriTask.getResult();
+                        final Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        uriTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (uriTask.isSuccessful()){
 
-                        //check if image is uploaded or not and url is received
-                        if (uriTask.isSuccessful()){
-                            //image uploaded
-                            //update url in users database
-                            HashMap<String,Object> results = new HashMap<>();
-                            //first param=image or cover seceond this url will be saved as value
-                            results.put(profileOrCoverPhoto,downloadUri.toString());
+                                    Uri downloadUri =uriTask.getResult();
+                                    //image uploaded
+                                    //update url in users database
+                                    HashMap<String,Object> results = new HashMap<>();
+                                    //first param=image or cover seceond this url will be saved as value
+                                    results.put(profileOrCoverPhoto,downloadUri.toString());
 
-                            databaseReference.child(user.getUid()).updateChildren(results)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            //url in db of user is added succesfully
-                                            pd.dismiss();
-                                            Toast.makeText(getActivity(),"Image Updated",Toast.LENGTH_SHORT).show();
+                                    try {
+                                        //if image is received then set
+                                        Picasso.get().load(downloadUri).into(avatarIV);
+                                    }
+                                    catch (Exception e){
+                                        //set default
+                                        Picasso.get().load(R.drawable.ic_add_image).into(avatarIV);
+                                    }
 
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            //error
-                                            pd.dismiss();
-                                            Toast.makeText(getActivity(),"Error updating Image",Toast.LENGTH_SHORT).show();
+                                    databaseReference.child(user.getUid()).updateChildren(results)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    //url in db of user is added succesfully
+                                                    pd.dismiss();
+                                                    Toast.makeText(getActivity(),"Image Updated",Toast.LENGTH_SHORT).show();
 
-                                        }
-                                    });
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    //error
+                                                    pd.dismiss();
+                                                    Toast.makeText(getActivity(),"Error updating Image",Toast.LENGTH_SHORT).show();
 
-                        }
-                        else{
-                            //error
-                            pd.dismiss();
-                            Toast.makeText(getActivity(),"Some error occured",Toast.LENGTH_SHORT).show();
-                        }
+                                                }
+                                            });
+
+                                } //check if image is uploaded or not and url is received
+
+                                else{
+                                    System.out.println("else");
+                                    //error
+                                    pd.dismiss();
+                                    Toast.makeText(getActivity(),"Some error occured",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
