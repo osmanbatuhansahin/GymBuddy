@@ -81,9 +81,10 @@ public class AddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
 
+
         actionBar = getSupportActionBar();
         actionBar.setTitle("Add New Post");
-        //enable nback button in actionbar
+        //enable back button in actionbar
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -92,6 +93,9 @@ public class AddPostActivity extends AppCompatActivity {
         storagePermissons= new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         pd = new ProgressDialog(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUserStatus();
 
 
         //necesarry info about user
@@ -112,10 +116,6 @@ public class AddPostActivity extends AppCompatActivity {
 
         }
     });
-
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        checkUserStatus();
 
         actionBar.setSubtitle(email);
 
@@ -187,7 +187,7 @@ public class AddPostActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     if(uriTask.isSuccessful()){
                                         String downloadUri = uriTask.getResult().toString();
-                                        System.out.println("isSuccessful");
+
                                         //url is received upload post to firebase database
                                         HashMap<Object, String> hashMap = new HashMap<>();
                                         hashMap.put("uid",uid);
