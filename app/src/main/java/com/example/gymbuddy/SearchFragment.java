@@ -54,10 +54,10 @@ public class SearchFragment extends Fragment {
         usersList = new ArrayList<>();
         //inits
         firebaseAuth = FirebaseAuth.getInstance();
-        
+
         //get all users
         getAllUsers();
-        
+
         return view;
     }
 
@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment {
                     //get all searched users except currently signed in user
                     if(!modelUsers.getUuid().equals(fUser.getUid())){
                         if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        modelUsers.getNickname().toLowerCase().contains(query.toLowerCase())){
+                                modelUsers.getNickname().toLowerCase().contains(query.toLowerCase())){
                             usersList.add(modelUsers);
 
                         }

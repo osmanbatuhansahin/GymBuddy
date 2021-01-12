@@ -1,6 +1,9 @@
 package com.example.gymbuddy;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int i) {
         //get data
+        final String hisUID = usersList.get(i).getUuid();
         String userImage = usersList.get(i).getImageLink();
         String userName = usersList.get(i).getName();
         final String userNick = usersList.get(i).getNickname();
@@ -57,9 +61,22 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, ""+userNick,Toast.LENGTH_SHORT).show();
+
+                //show dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(new String[]{"Profile"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(context, ThereProfileActivity.class);
+                        intent.putExtra("uid",hisUID);
+                        context.startActivity(intent);
+                    }
+                });
+                builder.create().show();
+
             }
         });
+        
 
     }
 

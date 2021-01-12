@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ThereProfileActivity">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
@@ -14,14 +14,6 @@
 
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_edit_white"
-            app:backgroundTint="#673AB7" />
 
 
         <ImageView
@@ -68,6 +60,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_posts"
         android:layout_below="@id/relativeLayout"

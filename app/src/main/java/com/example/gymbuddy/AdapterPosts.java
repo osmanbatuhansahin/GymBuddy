@@ -1,6 +1,7 @@
 package com.example.gymbuddy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +44,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
         //get data
-        String uid = postList.get(i).getUid();
+        final String uid = postList.get(i).getUid();
         String uEmail = postList.get(i).getuEmail();
         String uName = postList.get(i).getuName();
         String uDp = postList.get(i).getuDp();
@@ -121,6 +123,16 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 Toast.makeText(context,"Share",Toast.LENGTH_SHORT).show();
             }
         });
+        myHolder.profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //click to go thereProfileact with uid
+                Intent intent = new Intent(context, ThereProfileActivity.class);
+                intent.putExtra("uid",uid);
+                context.startActivity(intent);
+
+            }
+        });
 
 
     }
@@ -138,6 +150,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv;
         ImageButton moreBtn;
         Button likeBtn, commentBtn, shareBtn;
+        LinearLayout profileLayout;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -153,6 +166,8 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             likeBtn = itemView.findViewById(R.id.likeBtn);
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
+            profileLayout = itemView.findViewById(R.id.profileLayout);
+
 
 
         }
