@@ -307,7 +307,7 @@ public class ProfileFragment extends Fragment {
 
     private void showEditProfileDialog() {
         //edit pp name etc.
-        String options[] = {"Edit Profile Picture", "Edit Your Name","Edit Nickname"};
+        String options[] = {"Edit Profile Picture", "Edit Your Name","Edit Nickname", "Edit Your Bio"};
         //alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
        //set title
@@ -337,6 +337,13 @@ public class ProfileFragment extends Fragment {
 
 
                 }
+                else if (which == 3){
+                    //bio
+                    pd.setMessage("Updating Bio");
+                    showNamePhoneUpdateDialog("bio");
+
+
+                }
             }
         });
         //create and show dialog
@@ -345,7 +352,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showNamePhoneUpdateDialog(final String key) {
-        //key param is name or nick
+        //key param is name or nick or bio
 
         //custom dialog
         AlertDialog.Builder builder =new AlertDialog.Builder(getActivity());
