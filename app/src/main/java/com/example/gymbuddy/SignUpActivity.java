@@ -33,9 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
     TextView haveAnAccount;
     FirebaseAuth firebaseAuth;
     ProgressDialog pd ;
-    String uid;
-    FirebaseUser user;
-
 
     //Init for store data
     private FirebaseStorage firebaseStorage;
@@ -47,8 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        user = firebaseAuth.getCurrentUser();
 
         //Action Bar and it's title
         ActionBar actionBar = getSupportActionBar();
@@ -102,13 +97,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
                         pd.dismiss();
 
                         //Get user uuid and email
-                        if(user.getUid()!=null){
-                             uid = user.getUid();
-                        }
-
+                        String uid = user.getUid();
                         String email = user.getEmail();
 
                         Toast.makeText(SignUpActivity.this,"User created.\n"+user.getEmail(),Toast.LENGTH_LONG).show();
@@ -149,4 +142,4 @@ public class SignUpActivity extends AppCompatActivity {
         onBackPressed(); //Go previous activity.
         return super.onSupportNavigateUp();
     }
-    }
+}
