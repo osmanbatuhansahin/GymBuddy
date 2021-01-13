@@ -30,6 +30,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -42,31 +43,56 @@
         android:ems="10"
         android:hint="Nickname"
         android:inputType="textPersonName"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailSignUp" />
 
-    <EditText
-        android:id="@+id/editTextPasswordSignUp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_password"
         android:layout_width="264dp"
         android:layout_height="43dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPersonName"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:boxStrokeColor="#F44336"
+        app:hintTextColor="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNicknameSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNicknameSignUp"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/editTextPasswordSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:shadowColor="#FFFFFF"
+            android:textColor="@color/colorBlack"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="@color/colorBlack"
+            android:textColorLink="#FFFFFF"
+            android:textCursorDrawable="@null"
+            app:layout_constraintHorizontal_bias="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signUpButtonSignUp"
         android:layout_width="203dp"
         android:layout_height="38dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/colorPrimary"
         android:text="sıgn Up"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/til_password" />
 
     <View
         android:id="@+id/divider2"
@@ -83,13 +109,13 @@
         android:id="@+id/haveAnAccount"
         android:layout_width="241dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="200dp"
         android:text="Already have an account? Sign in."
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="#9C27B0"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
