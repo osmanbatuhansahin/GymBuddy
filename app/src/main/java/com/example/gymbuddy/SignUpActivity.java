@@ -114,6 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                         userCreatedInfos.put("uid",uid);  //Field'll edit in profile
                         userCreatedInfos.put("imageLink","");   //Field'll edit in profile
                         userCreatedInfos.put("bio","");   //Field'll edit in profile
+                        userCreatedInfos.put("profilepic","");   //Field'll edit in profile
 
                         //Firebasedatabase instance
                         FirebaseDatabase database = FirebaseDatabase.getInstance();

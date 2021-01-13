@@ -76,6 +76,9 @@ public class SearchFragment extends Fragment {
                     //get all users except currently signed in user
                     if(!modelUsers.getUid().equals(fUser.getUid())){
                         usersList.add(modelUsers);
+                        System.out.println("LALALAL"+modelUsers.getProfilepic());
+                        System.out.println("LOLOLO"+modelUsers.getName());
+                        System.out.println("LOLOLO"+modelUsers.getNickname());
                     }
                     //adapter
                     adapterUsers = new AdapterUsers(getActivity(), usersList);
@@ -108,6 +111,7 @@ public class SearchFragment extends Fragment {
                         if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
                                 modelUsers.getNickname().toLowerCase().contains(query.toLowerCase())){
                             usersList.add(modelUsers);
+
 
                         }
                     }

@@ -4,74 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     tools:context=".ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="#BC84F3">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:contentPadding="3dp">
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_edit_white"
-            app:backgroundTint="#673AB7" />
-
-
-        <ImageView
-            android:id="@+id/avatarIV"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_add_image" />
-
-        <TextView
-            android:id="@+id/nickTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/avatarIV"
-            android:text="Nickname"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/nameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_toEndOf="@+id/avatarIV"
-            android:text="Name"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="normal" />
-
-        <TextView
-            android:id="@+id/bioTV"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/avatarIV"
-            android:layout_alignBottom="@+id/avatarIV"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="-60dp"
-            android:text="Bio"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="italic" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:background="#DFD8E6"
+            android:paddingBottom="20dp">
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_edit_white"
+                app:backgroundTint="#673AB7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                android:id="@+id/avatarIV"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_add_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nickTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Nickname"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toEndOf="@+id/avatarIV"
+                app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="Name"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/avatarIV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/bioTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Bio"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatarIV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_posts"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@id/relativeLayout" />
+        android:layout_below="@+id/materialCardView" />
 
 </RelativeLayout>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:outlineAmbientShadowColor="#811414"
-    android:outlineSpotShadowColor="#9C2929"
+    android:outlineAmbientShadowColor="#E3D4D4"
+    android:outlineSpotShadowColor="#F3E6E6"
     tools:context=".SignInActivity">
 
     <TextView

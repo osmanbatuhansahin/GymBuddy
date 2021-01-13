@@ -46,6 +46,10 @@ public class ModelUsers {
         return profilepic;
     }
 
+    public String getProfilepic(){
+        return profilepic;
+    }
+
     public void setImageLink(String profilepic) {
         this.profilepic = profilepic;
     }

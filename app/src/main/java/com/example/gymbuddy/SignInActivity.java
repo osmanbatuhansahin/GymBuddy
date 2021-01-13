@@ -105,8 +105,8 @@ public class SignInActivity extends AppCompatActivity {
                         public void onSuccess(AuthResult authResult) {
                             //dismiss pd
                             pd.dismiss();
-                            Toast.makeText(SignInActivity.this,"Successful Login..",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(SignInActivity.this, DashboardActivity.class);
+                            Toast.makeText(SignInActivity.this,"Successful Login..",Toast.LENGTH_LONG).show();
                             startActivity(intent);
                             finish();
                         }

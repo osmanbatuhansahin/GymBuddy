@@ -95,7 +95,8 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    /*protected void onStart() {
+    /*@Override
+    protected void onStart() {
         checkUserStatus();
         super.onStart();
     }*/

@@ -66,8 +66,6 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();
 
         loadPosts();
-
-
         return view;
     }
 
@@ -95,14 +93,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //in case of error
-                Toast.makeText(getActivity(),""+error.getMessage(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(),""+error.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
     private void searchPosts(final String searchQuery){
-//path of all posts
+        //path of all posts
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
         //get all data from this ref
         ref.addValueEventListener(new ValueEventListener() {

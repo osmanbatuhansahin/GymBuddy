@@ -50,6 +50,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         //set data
         holder.mNameTV.setText(userName);
         holder.mNickTV.setText(userNick);
+
         try {
             Picasso.get().load(userImage).placeholder(R.drawable.ic_image_person)
                     .into(holder.mAvatarIV);
