@@ -33,6 +33,7 @@ import java.util.List;
 public class ThereProfileActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
+    FirebaseUser user;
 
     //views from xml
     ImageView avatarIV;
@@ -66,6 +67,7 @@ public class ThereProfileActivity extends AppCompatActivity {
         //get uid of clicked user
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
+
 
         Query query = FirebaseDatabase.getInstance().getReference("UserInfos").orderByChild("uid").equalTo(uid);
         query.addValueEventListener(new ValueEventListener() {
@@ -197,7 +199,7 @@ public class ThereProfileActivity extends AppCompatActivity {
 
     private void checkUserStatus(){
         //Current user
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user = firebaseAuth.getCurrentUser();
         if(user!=null){
             //Stay logged in.
         }
@@ -265,6 +267,7 @@ public class ThereProfileActivity extends AppCompatActivity {
             firebaseAuth.signOut();
             checkUserStatus();
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

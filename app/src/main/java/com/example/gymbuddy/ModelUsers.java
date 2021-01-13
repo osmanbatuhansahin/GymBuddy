@@ -3,19 +3,19 @@ package com.example.gymbuddy;
 public class ModelUsers {
 
     //use same name in firebase
-    String name, useremail, search, imageLink, nickname, bio, uuid;
+    String name, email, search, imageLink, nickname, bio, uid;
 
     public ModelUsers(){
     }
 
-    public ModelUsers(String name, String useremail, String search, String imageLink, String nickname, String bio, String uuid) {
+    public ModelUsers(String name, String email, String search, String imageLink, String nickname, String bio, String uid) {
         this.name = name;
-        this.useremail = useremail;
+        this.email = email;
         this.search = search;
         this.imageLink = imageLink;
         this.nickname = nickname;
         this.bio = bio;
-        this.uuid = uuid;
+        this.uid = uid;
     }
 
     public String getName() {
@@ -27,11 +27,11 @@ public class ModelUsers {
     }
 
     public String getUseremail() {
-        return useremail;
+        return email;
     }
 
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
+    public void setUseremail(String email) {
+        this.email = email;
     }
 
     public String getSearch() {
@@ -66,11 +66,11 @@ public class ModelUsers {
         this.bio = bio;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

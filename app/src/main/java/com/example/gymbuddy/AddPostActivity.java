@@ -100,13 +100,13 @@ public class AddPostActivity extends AppCompatActivity {
 
         //necesarry info about user
         userDbRef = FirebaseDatabase.getInstance().getReference("UserInfos");
-        Query query = userDbRef.orderByChild("useremail").equalTo(email);
+        Query query = userDbRef.orderByChild("email").equalTo(email);
         query.addValueEventListener(new ValueEventListener(){
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for(DataSnapshot ds:dataSnapshot.getChildren()){
                 name = ""+ ds.child("name").getValue();
-                email = ""+ ds.child("useremail").getValue();
+                email = ""+ ds.child("email").getValue();
                 dp = ""+ ds.child("profilepic").getValue();
             }
         }

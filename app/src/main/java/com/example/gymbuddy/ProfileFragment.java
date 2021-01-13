@@ -139,7 +139,7 @@ public class ProfileFragment extends Fragment {
 
 
         //Query
-        Query query = databaseReference.orderByChild("useremail").equalTo(user.getEmail());
+        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

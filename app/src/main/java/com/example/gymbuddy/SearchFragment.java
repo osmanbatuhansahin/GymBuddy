@@ -74,7 +74,7 @@ public class SearchFragment extends Fragment {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     ModelUsers modelUsers = ds.getValue(ModelUsers.class);
                     //get all users except currently signed in user
-                    if(!modelUsers.getUuid().equals(fUser.getUid())){
+                    if(!modelUsers.getUid().equals(fUser.getUid())){
                         usersList.add(modelUsers);
                     }
                     //adapter
@@ -104,7 +104,7 @@ public class SearchFragment extends Fragment {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     ModelUsers modelUsers = ds.getValue(ModelUsers.class);
                     //get all searched users except currently signed in user
-                    if(!modelUsers.getUuid().equals(fUser.getUid())){
+                    if(!modelUsers.getUid().equals(fUser.getUid())){
                         if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
                                 modelUsers.getNickname().toLowerCase().contains(query.toLowerCase())){
                             usersList.add(modelUsers);
