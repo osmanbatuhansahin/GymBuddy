@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
         //init user list
         usersList = new ArrayList<>();
         //inits
-        firebaseAuth = FirebaseAuth.getInstance();
+        //firebaseAuth = FirebaseAuth.getInstance();
 
         //get all users
         getAllUsers();
