@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
-
+    //zip
     Context context;
     List<ModelPost> postList;
 
