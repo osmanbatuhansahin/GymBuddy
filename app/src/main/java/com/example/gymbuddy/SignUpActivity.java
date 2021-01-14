@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView haveAnAccount;
     FirebaseAuth firebaseAuth;
     ProgressDialog pd ;
+    TextInputLayout password_til2;
 
     //Init for store data
     private FirebaseStorage firebaseStorage;
@@ -58,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         txtPassword = findViewById(R.id.editTextPasswordSignUp);
         btnSignUp = findViewById(R.id.signUpButtonSignUp);
         haveAnAccount = findViewById(R.id.haveAnAccount);
+        password_til2 = findViewById(R.id.til_password2);
 
         //FireBase init
         firebaseAuth = FirebaseAuth.getInstance();
@@ -81,11 +84,15 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ŞİFRENİN 8 KARAKTER OLMASINI İSTEMEMİZ GEREK.
+                //ŞİFRENİN 6 KARAKTER OLMASINI İSTEMEMİZ GEREK.
                 //Kayıt Olma İşlemleri.....
                 String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
                 final String nickname = txtNickname.getText().toString();
+                if(password.length()<6){
+                    password_til2.setError("Password length should be at least 6 character.");
+                    txtPassword.setFocusable(true);}
+
                 pd.show();
 
                 firebaseAuth.createUserWithEmailAndPassword(email,password).addOnFailureListener(new OnFailureListener() {

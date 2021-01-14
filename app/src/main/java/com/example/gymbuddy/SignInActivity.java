@@ -93,8 +93,8 @@ public class SignInActivity extends AppCompatActivity {
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     email_til.setError("Invalid email.");
                     txtEmail.setFocusable(true);
-                }else if(password.length()<8){
-                    password_til.setError("Password length should be at least 8 character.");
+                }else if(password.length()<6){
+                    password_til.setError("Password length should be at least 6 character.");
                     txtPass.setFocusable(true);
                 }else{
                     //show progress dialog

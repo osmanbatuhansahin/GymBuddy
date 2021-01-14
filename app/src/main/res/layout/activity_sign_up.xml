@@ -50,14 +50,14 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_password"
+        android:id="@+id/til_password2"
         android:layout_width="264dp"
         android:layout_height="43dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        app:boxStrokeColor="#F44336"
-        app:hintTextColor="#F44336"
+        app:boxStrokeColor="#764BC4"
+        app:hintTextColor="#764BC4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNicknameSignUp"
@@ -66,7 +66,7 @@
         <EditText
             android:id="@+id/editTextPasswordSignUp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Password"
@@ -85,7 +85,7 @@
         android:id="@+id/signUpButtonSignUp"
         android:layout_width="203dp"
         android:layout_height="38dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="196dp"
         android:background="@color/colorPrimary"
         android:text="sıgn Up"
         android:textColor="@color/colorWhite"
@@ -116,6 +116,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintVertical_bias="0.175" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
